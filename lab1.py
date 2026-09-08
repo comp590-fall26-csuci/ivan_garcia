@@ -1,13 +1,13 @@
-def fib(n):
-    fib_0 = 0
-    fib_1 = 1
-    seq = [fib_0, fib_1]
+def fib(n, sequence):
+    if len(sequence) < 2:
+        sequence = [0,1]
 
-    for i in range(2,n):
-        next_num = seq[i-1] + seq[i-2]
-        seq.append(next_num)
-
-    return seq
+    if n <= 2:
+        return sequence
+    else:
+        next_num = sequence[-1] + sequence[-2]
+        sequence.append(next_num)
+        return fib(n-1,sequence)
 
 def print_seq(seq):
     with open('./output/fibonacci.txt','w') as file:
@@ -15,8 +15,11 @@ def print_seq(seq):
             file.write(f'{entry}\n')
 
 def main():
-    sequence = fib(25)
+    sequence = []
+    sequence = fib(25, sequence)
+    print(f'Sequence size: {len(sequence)}')
     print_seq(sequence)
+    print('done')
 
 if __name__ == "__main__":
     main()
