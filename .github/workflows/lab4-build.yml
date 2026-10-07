@@ -13,5 +13,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: make
-      run: cd lab4 && make build && ./fibo
+    - name: build
+      run: cd lab4 && make build
+    - name: run and verify
+      run: |
+        cd lab4
+        ./fibo | tee output.txt
+        grep -w 55 output.txt
+        grep -w 1.618034 output.txt
+    - name: unit tests
+      run: cd lab4 && make test
