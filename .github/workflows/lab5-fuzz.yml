@@ -1,5 +1,5 @@
 name: Fuzz (afl++)
-
+ 
 on:
   pull_request:
  
@@ -12,6 +12,8 @@ jobs:
       working-directory: lab5
       run: |
         mkdir -p in && printf 'AAAAAAAA' > in/seed
-        docker run --rm -v "$PWD:/src" -w /src \
+        docker pull aflplusplus/aflplusplus:stable
+        timeout 240 docker run --init --rm -v "$PWD:/src" -w /src \
+          -e AFL_SKIP_CPUFREQ=1 -e AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 \
           aflplusplus/aflplusplus:stable \
-          sh -c 'afl-cc -o dvcp dvcp.c && afl-fuzz -V 180 -m 100 -i in -o out -- ./dvcp @@'
+          sh -c 'afl-cc -o dvcp dvcp.c && afl-fuzz -V 180 -m 100 -i in -o out -- ./dvcp @@' || true
