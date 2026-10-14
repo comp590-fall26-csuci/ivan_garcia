@@ -9,7 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Fuzz dvcp with afl++ for 3 minutes
-      continue-on-error: true
       working-directory: lab5
       run: |
         mkdir -p in && printf 'AAAAAAAA' > in/seed
