@@ -23,3 +23,13 @@ jobs:
         grep -w 1.618034 output.txt
     - name: unit tests
       run: cd lab4 && make test
+
+  semgrep:
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+    - uses: actions/checkout@v4
+    - name: semgrep scan
+      run: semgrep scan --config auto
+

@@ -1,0 +1,18 @@
+name: Fuzz (afl++)
+
+on:
+  pull_request:
+ 
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Fuzz dvcp with afl++ for 3 minutes
+      continue-on-error: true
+      working-directory: lab5
+      run: |
+        mkdir -p in && printf 'AAAAAAAA' > in/seed
+        docker run --rm -v "$PWD:/src" -w /src \
+          aflplusplus/aflplusplus:stable \
+          sh -c 'afl-cc -o dvcp dvcp.c && afl-fuzz -V 180 -m 100 -i in -o out -- ./dvcp @@'
