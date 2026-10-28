@@ -1,0 +1,27 @@
+- name: Lab 6 - Setup
+  hosts: local
+  become: true
+
+
+  tasks:
+    - name: Install asciinema
+      ansible.builtin.apt:
+        name: asciinema
+        state: present
+
+    - name: Install apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Enable and start apache2
+      ansible.builtin.service:
+        name: apache2
+        enabled: true
+        state: started
+
+    - name: Completion Message
+      ansible.builtin.debug:
+        msg: "Done"
